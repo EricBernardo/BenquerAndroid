@@ -3,24 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="56dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    tools:context="br.com.benquer.app.benquer.Login">
+    tools:context="br.com.benquer.app.benquer.LoginActivity">
 
     <!-- Email Label -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Usuário" />
+        android:text="E-mail" />
 
     <EditText
-        android:id="@+id/user"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

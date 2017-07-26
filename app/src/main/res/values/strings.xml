@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Benquer</string>
+    <string name="api_url">https://api.benquer.com.br/</string>
+    <string name="token_request_grant_type">password</string>
+    <string name="token_request_client_id">$9efe6c59$-d69d-4755-9903-$f06c68e63df8$</string>
+    <string name="token_request_client_secret">aHXEaxx5GohDJRCQWzt4Hwd7M3RGwuWq</string>
 </resources>
