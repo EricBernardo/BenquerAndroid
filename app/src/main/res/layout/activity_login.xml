@@ -9,7 +9,8 @@
     android:paddingTop="56dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    tools:context="br.com.benquer.app.benquer.LoginActivity">
+    tools:context="br.com.benquer.app.benquer.LoginActivity"
+    android:weightSum="1">
 
     <!-- Email Label -->
     <TextView
@@ -48,6 +49,12 @@
         android:padding="12dp"
         android:text="Entrar" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.27" />
 
 
 </LinearLayout>

@@ -1,11 +1,14 @@
 package br.com.benquer.app.benquer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import br.com.benquer.app.benquer.interfaces.OAuth2;
 import br.com.benquer.app.benquer.models.TokenRequest;
@@ -21,6 +24,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button button;
+    ProgressBar progressBar;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +36,15 @@ public class LoginActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
         button = (Button) findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Log.d("Email", email.getText().toString());
-                Log.d("Password", password.getText().toString());
+                progressBar.setVisibility(View.VISIBLE);
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(getString(R.string.api_url))
@@ -65,16 +73,32 @@ public class LoginActivity extends AppCompatActivity {
 
                         Log.d("LoginActivity", "onResponse: " + statusCode);
 
-                        Log.d("LoginActivity", "access_token: " + tokenResponse.getAccess_token());
-                        Log.d("LoginActivity", "token_type: " + tokenResponse.getToken_type());
-                        Log.d("LoginActivity", "refresh_token: " + tokenResponse.getRefresh_token());
-                        Log.d("LoginActivity", "expires_in: " + tokenResponse.getExpires_in());
+                        if(statusCode == 200) {
+
+                            sharedPref = getSharedPreferences("Auth", Context.MODE_PRIVATE);
+                            editor = sharedPref.edit();
+
+                            editor.putString("access_token", tokenResponse.getAccess_token());
+                            editor.putString("token_type", tokenResponse.getToken_type());
+                            editor.putString("refresh_token", tokenResponse.getRefresh_token());
+                            editor.putString("access_token", tokenResponse.getAccess_token());
+                            editor.commit();
+
+                            String access_token = sharedPref.getString("access_token", "");
+                            Log.d("access_token", access_token);
+
+                        }
+
+                        progressBar.setVisibility(View.GONE);
 
                     }
 
                     @Override
                     public void onFailure(Call<TokenResponse> call, Throwable t) {
+
                         Log.d("LoginActivity", "onFailure: " + t.getMessage());
+                        progressBar.setVisibility(View.GONE);
+
                     }
 
                 });
