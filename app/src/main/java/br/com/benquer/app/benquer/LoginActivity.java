@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-import br.com.benquer.app.benquer.interfaces.OAuth2;
+import br.com.benquer.app.benquer.interfaces.Auth;
 import br.com.benquer.app.benquer.models.TokenRequest;
 import br.com.benquer.app.benquer.models.TokenResponse;
 import retrofit2.Call;
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tokenRequest.setClient_id(getString(R.string.token_request_client_id));
         tokenRequest.setClient_secret(getString(R.string.token_request_client_secret));
 
-        OAuth2 service = retrofit.create(OAuth2.class);
+        Auth service = retrofit.create(Auth.class);
 
         Call<TokenResponse> tokenResponseCall = service.getTokenAccess(tokenRequest);
 
@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     editor.putString("access_token", tokenResponse.getAccess_token());
                     editor.putString("token_type", tokenResponse.getToken_type());
                     editor.putString("refresh_token", tokenResponse.getRefresh_token());
-                    editor.putString("access_token", tokenResponse.getAccess_token());
                     editor.commit();
 
                 }
