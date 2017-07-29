@@ -83,12 +83,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     editor.putString("refresh_token", tokenResponse.getRefresh_token());
                     editor.commit();
 
+                    AccountTypesList();
+
                 }
 
                 progressBar.setVisibility(View.GONE);
-
-                AccountTypesList();
-
 
             }
 

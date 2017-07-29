@@ -1,18 +1,31 @@
 package br.com.benquer.app.benquer.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class AccountType {
 
-    private List<AccountTypeDetails> accountTypeDetails = new ArrayList<AccountTypeDetails>();
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("name")
+    @Expose
+    private String name;
 
-    public List<AccountTypeDetails> getAccountTypeDetails() {
-        return accountTypeDetails;
+    public String getType() {
+        return type;
     }
 
-    public void setAccountTypeDetails(List<AccountTypeDetails> accountTypeDetails) {
-        this.accountTypeDetails = accountTypeDetails;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

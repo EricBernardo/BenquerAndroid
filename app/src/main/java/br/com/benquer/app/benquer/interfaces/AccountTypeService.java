@@ -10,6 +10,6 @@ import retrofit2.http.Header;
 public interface AccountTypeService {
 
     @GET("account-type")
-    Call<List<AccountTypeList>> getAccountTypes(@Header("Authorization") String authorization);
+    Call<AccountTypeList> getAccountTypes(@Header("Authorization") String authorization);
 
 }

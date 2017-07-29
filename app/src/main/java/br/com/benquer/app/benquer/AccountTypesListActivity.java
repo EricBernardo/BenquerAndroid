@@ -8,13 +8,8 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.List;
-
 import br.com.benquer.app.benquer.interfaces.AccountTypeService;
-import br.com.benquer.app.benquer.models.AccountTypeDec;
+import br.com.benquer.app.benquer.models.AccountType;
 import br.com.benquer.app.benquer.models.AccountTypeList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,11 +30,9 @@ public class AccountTypesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_types_list);
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(AccountTypeService.class, new AccountTypeDec()).create();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.api_url))
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         AccountTypeService service = retrofit.create(AccountTypeService.class);
@@ -48,29 +41,22 @@ public class AccountTypesListActivity extends AppCompatActivity {
         String token_type = sharedPref.getString("token_type", "");
         String access_token = sharedPref.getString("access_token", "");
 
-        token_type = "Bearer";
-        access_token = "gyNULtpYWv12JyZS67m3cooQIHpqRYnuRNqf7P6m";
+        String authToken = token_type + " " + access_token;
 
-        String authToken = "Bearer " + access_token;
+        Call accountTypes = service.getAccountTypes(authToken);
 
-        Call<List<AccountTypeList>> accountTypes = service.getAccountTypes(authToken);
-
-        accountTypes.enqueue(new Callback<List<AccountTypeList>>() {
+        accountTypes.enqueue(new Callback<AccountTypeList>() {
 
             @Override
-            public void onResponse(Call<List<AccountTypeList>> call, Response<List<AccountTypeList>> response) {
+            public void onResponse(Call<AccountTypeList> call, Response<AccountTypeList> response) {
 
-                int statusCode = response.code();
-
-                if(statusCode == 200) {
-                    //List<AccountTypeList> accountTypes = response.body();
-                    //listAccountType(accountTypes);
-                }
+                AccountTypeList accountTypeList = response.body();
+                listAccountType(accountTypeList);
 
             }
 
             @Override
-            public void onFailure(Call<List<AccountTypeList>> call, Throwable t) {
+            public void onFailure(Call<AccountTypeList> call, Throwable t) {
                 Log.d("LoginActivity", "onFailure: " + t.getMessage());
             }
 
@@ -78,17 +64,17 @@ public class AccountTypesListActivity extends AppCompatActivity {
 
     }
 
-    private void listAccountType(List<AccountTypeList> accountTypeResponse)
+    private void listAccountType(AccountTypeList accountTypeResponse)
     {
 
         ListView listView = (ListView) findViewById(R.id.listData);
         adpData = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 
-        for (AccountTypeList a: accountTypeResponse){
-            //AccountTypeDetails accountType = new AccountTypeDetails(a);
-            //adpData.add(accountType);
+        for (AccountType a : accountTypeResponse.getData()){
+            adpData.add(a.getName());
         }
 
         listView.setAdapter(adpData);
+
     }
 }
